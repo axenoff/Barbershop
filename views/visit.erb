@@ -15,15 +15,15 @@
  <div class="form-group">
   <label>У кого вы хотите подстричься</label> 
   <select name="master" class="form-control">
-  <option value="Ира Власова">Ира Власова</option>
-  <option value="Михаил Савин">Михаил Савин</option>
-  <option>Виталий Ставорский</option>
+  <option <%= @master == 'Ира Власова'? 'selected' : '' %>>Ира Власова</option>
+  <option <%= @master == 'Михаил Савин'? 'selected' : '' %>>Михаил Савин</option>
+  <option <%= @master == 'Виталий Ставорский'? 'selected' : '' %>>Виталий Ставорский</option>
 </select>
 </div>
 
   <div class="form-group">
     <label>Когда вас ждать</label>
-    <input name="date_time" type="text" class="form-control" placeholder="Введите дату и время" value="<%= @date_time %>">
+    <input name="date_stamp" type="text" class="form-control" placeholder="Введите дату и время" value="<%= @date_stamp %>">
   </div>
   
   <div class="form-group">

@@ -2,6 +2,18 @@
 require 'rubygems'
 require 'sinatra'
 require 'pony'
+require 'sqlite3'
+
+configure do
+  @db = SQLite3::Database.new 'barbershop.db'
+  @db.execute 'CREATE TABLE IF NOT EXISTS 
+  "Users" (
+  "id" INTEGER PRIMARY KEY AUTOINCREMENT, 
+  "username" TEXT, 
+  "phone" TEXT, 
+  "master" TEXT, 
+  "color" TEXT);'
+end
 
 get '/' do
 	erb "Hello! <a href=\"https://github.com/bootstrap-ruby/sinatra-bootstrap\">Original</a> pattern has been modified for <a href=\"http://rubyschool.us/\">Ruby School</a>"			
@@ -18,12 +30,13 @@ end
 post '/visit' do
     @username = params[:username]
     @phone = params[:phone]
-    @date_time = params[:date_time]
+    @date_stamp = params[:date_stamp]
     @master = params[:master]
+    @color = params[:color]
 
    hh = { :username => 'Введите имя',
    	:phone => 'Введите телефон',
-   	:date_time => 'Введите дату и телефон'}
+   	:date_stamp => 'Введите дату и телефон'}
 
    	#для каждой пары ключ-значение
    	#hh.each do |key, value|
@@ -42,7 +55,7 @@ post '/visit' do
 
    	end
 
-    erb "Dear #{@username}, we'll be waiting for you at #{@date_time}"
+    erb "Dear #{@username}, we'll be waiting for you at #{@date_stamp}, your color: #{@color}"
         
 end 
 
