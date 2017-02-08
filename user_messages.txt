@@ -1,0 +1,9 @@
+User: Any, Contact: 7272727, Message: Все очень понравилось, придем еще
+User: as, Contact: asd, Message: asd
+User: Anna, Contact: 727272, Message: Cool
+User: Anna, Contact: 727272, Message: Cool
+User: Lora, Contact: 72722, Message: Come to my bed
+User: Lora, Contact: 72722, Message: Come to my bed
+User: Lora, Contact: 33222, Message: Hey boy
+User: марвин, Contact: живу в патерсон, Message: 
+User: марвин, Contact: 897, Message: апррр

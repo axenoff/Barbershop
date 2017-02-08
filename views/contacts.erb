@@ -1,0 +1,19 @@
+<h2>Контакты</h2>
+<p>Наш адрес: Москва, ул. Большая Бронная, д.9</p>
+<p>Наш телефон: 72-05-50</p>
+<p>Мы работаем каждый день с 10-00 до 21-00</p>
+<p>Вы можете оставить нам сообщение:</p>
+<form action ="/contacts" method="POST">
+  <div class="form-group">
+    <label>Ваше имя</label>
+    <input name="name" type="text" class="form-control" placeholder="Введите ваше имя">
+  </div>
+  <div class="form-group">
+    <label>Как с вами связаться</label>
+    <input name="user_contact" type="text" class="form-control" placeholder="Введите ваш телефон или e-mail">
+  </div>
+<textarea name="user_message" type="text" class="form-control" rows="5" placeholder="Напишите ваше сообщение"></textarea>
+  <button type="submit" class="btn btn-primary">Отправить</button>
+  <p><%= @message_contacts %></p>
+
+  </form>
