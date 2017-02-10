@@ -4,13 +4,18 @@ require 'sinatra'
 require 'pony'
 require 'sqlite3'
 
+def get_db
+  return SQLite3::Database.new 'barbershop.db'
+end 
+
 configure do
-  @db = SQLite3::Database.new 'barbershop.db'
-  @db.execute 'CREATE TABLE IF NOT EXISTS 
+  db = get_db
+  db.execute 'CREATE TABLE IF NOT EXISTS 
   "Users" (
   "id" INTEGER PRIMARY KEY AUTOINCREMENT, 
   "username" TEXT, 
-  "phone" TEXT, 
+  "phone" TEXT,
+  "date_stamp" TEXT, 
   "master" TEXT, 
   "color" TEXT);'
 end
@@ -55,6 +60,11 @@ post '/visit' do
 
    	end
 
+
+    db = get_db
+    db.execute 'insert into Users (username, phone, date_stamp, master, color) values (
+    ?,?,?,?,?)', [@username, @phone, @date_stamp, @master, @color]
+
     erb "Dear #{@username}, we'll be waiting for you at #{@date_stamp}, your color: #{@color}"
         
 end 
@@ -62,6 +72,9 @@ end
 get '/contacts' do
 	erb :contacts
 end
+
+
+
 
 post '/contacts' do
 	@name = params[:name]
