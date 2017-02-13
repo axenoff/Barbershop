@@ -11,13 +11,16 @@ end
 configure do
   db = get_db
   db.execute 'CREATE TABLE IF NOT EXISTS 
-  "Users" (
+  "Users1" (
   "id" INTEGER PRIMARY KEY AUTOINCREMENT, 
   "username" TEXT, 
   "phone" TEXT,
   "date_stamp" TEXT, 
   "master" TEXT, 
   "color" TEXT);'
+  db.execute 'CREATE TABLE IF NOT EXISTS "Barbers" (
+  "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+  "barber" TEXT);'
 end
 
 get '/' do
@@ -29,6 +32,14 @@ get '/about' do
 end
 
 get '/visit' do
+      db = get_db
+
+        @barbers=[]
+    db.execute 'select * from Barbers' do |row|
+      @barbers<<row['barber']
+    end
+   
+
 	erb :visit
 end
 
@@ -62,8 +73,11 @@ post '/visit' do
 
 
     db = get_db
-    db.execute 'insert into Users (username, phone, date_stamp, master, color) values (
+    db.execute 'insert into Users1 (username, phone, date_stamp, master, color) values (
     ?,?,?,?,?)', [@username, @phone, @date_stamp, @master, @color]
+
+  
+
 
     erb "Dear #{@username}, we'll be waiting for you at #{@date_stamp}, your color: #{@color}"
         
@@ -112,10 +126,6 @@ post '/contacts' do
 
 	erb :contacts
 
-
-
-
-
 end
 
 get '/admin' do
@@ -135,5 +145,25 @@ post '/admin' do
 		erb :admin
 	end
 
+end
+
+get '/showusers' do
+
+    db = get_db
+    
+    @show_u = ""
+    db.execute 'SELECT * from Users order by id' do |row|
+      @show_u+="#{row['id']}, #{row['username']}, #{row['phone']}, #{row['date_stamp']}, #{row['master']}, #{row['color']}"+"\n"
+      puts @show_u
+
+    end
+     erb :showusers
+
+end
+
+def get_db
+  db = SQLite3::Database.new 'barbershop.db'
+  db.results_as_hash = true
+  return db
 end
     

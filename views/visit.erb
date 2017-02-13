@@ -1,6 +1,15 @@
 <h2>Записаться</h2>
 <p>На этой странице вы сможете записаться к нам на стрижку</p>
 
+<script type="text/javascript">
+$(function(){
+
+$('#color').simplecolorpicker();
+$('#datetimepicker').datetimepicker();
+
+});
+</script>
+
 <form action ="/visit" method="POST">
   <div class="form-group">
     <label>Ваше имя</label>
@@ -15,16 +24,18 @@
  <div class="form-group">
   <label>У кого вы хотите подстричься</label> 
   <select name="master" class="form-control">
-  <option <%= @master == 'Ира Власова'? 'selected' : '' %>>Ира Власова</option>
-  <option <%= @master == 'Михаил Савин'? 'selected' : '' %>>Михаил Савин</option>
-  <option <%= @master == 'Виталий Ставорский'? 'selected' : '' %>>Виталий Ставорский</option>
+  <% @barbers.each do |barber| %>
+  <option <%= @master == 'Ира Власова'? 'selected' : '' %>><%= barber %></option>
+  <% end %>
 </select>
 </div>
 
+
+
   <div class="form-group">
     <label>Когда вас ждать</label>
-    <input name="date_stamp" type="text" class="form-control" placeholder="Введите дату и время" value="<%= @date_stamp %>">
-  </div>
+    <input id="datetimepicker" name="date_stamp" type="text" class="form-control" placeholder="Введите дату и время" value="<%= @date_stamp %>">
+  </div> 
   
   <div class="form-group">
     <label>В какие цвета хотите себя окрасить: </label>
@@ -46,10 +57,4 @@
   <button type="submit" class="btn btn-primary">Записаться</button>
 </form>
 
-<script type="text/javascript">
-$(function(){
 
-$('#color').simplecolorpicker();
-
-});
-</script>
