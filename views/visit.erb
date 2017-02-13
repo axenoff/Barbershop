@@ -24,8 +24,8 @@ $('#datetimepicker').datetimepicker();
  <div class="form-group">
   <label>У кого вы хотите подстричься</label> 
   <select name="master" class="form-control">
-  <% @barbers.each do |barber| %>
-  <option <%= @master == 'Ира Власова'? 'selected' : '' %>><%= barber %></option>
+  <% @parikmahers.each do |barber| %>
+  <option <%= @master == barber ? 'selected' : '' %>><%= barber %></option>
   <% end %>
 </select>
 </div>

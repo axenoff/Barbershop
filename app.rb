@@ -4,9 +4,34 @@ require 'sinatra'
 require 'pony'
 require 'sqlite3'
 
+def is_barber_exists? db, barber
+  db.execute('select * from Barbers where barber=?', [barber]).length > 0 
+end
+
+def seed_db db, barbers
+
+  barbers.each do |master|
+    if !is_barber_exists? db, master
+      db.execute 'insert into Barbers (barber) values (?)', [master]
+    end
+
+  end
+
+end
+
 def get_db
-  return SQLite3::Database.new 'barbershop.db'
+  db = SQLite3::Database.new 'barbershop.db'
+  db.results_as_hash = true
+  return db
 end 
+
+before do
+  db = get_db
+  @parikmahers=[]
+  db.execute 'select * from Barbers' do |row|
+    @parikmahers<<row['barber']
+  end
+end
 
 configure do
   db = get_db
@@ -21,6 +46,8 @@ configure do
   db.execute 'CREATE TABLE IF NOT EXISTS "Barbers" (
   "id" INTEGER PRIMARY KEY AUTOINCREMENT,
   "barber" TEXT);'
+
+  seed_db db, ['Ира Власова', 'Михаил Савин', 'Виталий Ставорский']
 end
 
 get '/' do
@@ -32,12 +59,12 @@ get '/about' do
 end
 
 get '/visit' do
-      db = get_db
+    #   db = get_db
 
-        @barbers=[]
-    db.execute 'select * from Barbers' do |row|
-      @barbers<<row['barber']
-    end
+    #     @parikmahers=[]
+    # db.execute 'select * from Barbers' do |row|
+    #   @parikmahers<<row['barber']
+    # end
    
 
 	erb :visit
@@ -50,6 +77,12 @@ post '/visit' do
     @master = params[:master]
     @color = params[:color]
 
+    # db = get_db
+
+    #     @parikmahers=[]
+    # db.execute 'select * from Barbers' do |row|
+    #   @parikmahers<<row['barber']
+    # end
    hh = { :username => 'Введите имя',
    	:phone => 'Введите телефон',
    	:date_stamp => 'Введите дату и телефон'}
@@ -151,19 +184,16 @@ get '/showusers' do
 
     db = get_db
     
-    @show_u = ""
-    db.execute 'SELECT * from Users order by id' do |row|
-      @show_u+="#{row['id']}, #{row['username']}, #{row['phone']}, #{row['date_stamp']}, #{row['master']}, #{row['color']}"+"\n"
-      puts @show_u
+    # @show_u = ""
+    # db.execute 'SELECT * from Users order by id' do |row|
+    #   @show_u+="#{row['id']}, #{row['username']}, #{row['phone']}, #{row['date_stamp']}, #{row['master']}, #{row['color']}"+"\n"
+    #   puts @show_u
 
-    end
+    @results = db.execute 'select * from Users1 order by id desc'
+
+
      erb :showusers
 
 end
 
-def get_db
-  db = SQLite3::Database.new 'barbershop.db'
-  db.results_as_hash = true
-  return db
-end
     

@@ -1,1 +1,23 @@
-<p><%= @show_u %></p>
+<!-- <p><%= @show_u %></p> # старый вариант
+ -->
+<table class="table table-striped">
+<thead>
+<tr>
+		<th>Имя</th>
+		<th>Телефон</th>
+		<th>Время записи</th>
+		<th>Парикмахер</th>
+		<th>Цвет</th>
+	</tr>
+</thead>
+<% @results.each do |row| %>
+	<tr>
+		<td><%= row['username'] %></td>
+		<td><%= row['phone'] %></td>
+		<td><%= row['date_stamp'] %></td>
+		<td><%= row['master'] %></td>
+		<td><%= row['color'] %></td>
+	</tr>
+<% end %>
+</table>
+
